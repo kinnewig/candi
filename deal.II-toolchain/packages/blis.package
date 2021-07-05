@@ -1,0 +1,42 @@
+################################################################################
+## BLIS                                                                       ##
+################################################################################
+
+VERSION=3.0
+CHECKSUM=31141b27f671c25190367bb376a6db43
+
+NAME=v${VERSION}
+SOURCE=https://github.com/xianyi/OpenBLAS/archive/
+PACKING=.tar.gz
+EXTRACTSTO=OpenBLAS-${VERSION}
+BUILDDIR=${BUILD_PATH}/${EXTRACTSTO}
+INSTALL_PATH=${INSTALL_PATH}/${EXTRACTSTO}
+
+BUILDCHAIN=custom
+
+package_specific_build () {
+    cd ${BUILDDIR}
+    cp -rf ${UNPACK_PATH}/${EXTRACTSTO}/* .
+
+    ./configure --enable-cblas  --prefix=${INSTALL_PATH} ${AMD_ARCHITECTURE}
+    quit_if_fail "configure failed"
+
+    make -j ${JOBS} 
+    quit_if_fail "make failed"
+
+    make install -j ${JOBS} 
+    quit_if_fail "make install failed"
+}
+
+package_specific_register () {
+    export BLIS_DIR=${INSTALL_PATH}/lib
+}
+
+package_specific_conf () {
+    # Generate configuration file
+    CONFIG_FILE=${CONFIGURATION_PATH}/${EXTRACTSTO}
+    rm -f $CONFIG_FILE
+    echo "
+export BLIS_DIR=${INSTALL_PATH}/lib
+" >> $CONFIG_FILE
+}
