@@ -3,10 +3,13 @@
 ################################################################################
 
 VERSION=5.4.0.5
+EXTRACTSTO=mumps-${VERSION}
+
 NAME=v${VERSION}
-SOURCE=https://github.com/scivision/mumps/archive/
-EXTRACTSTO=MUMPS-${VERSION}
 PACKING=.tar.gz
+
+SOURCE=https://github.com/scivision/mumps/archive/
+CHECKSUM=0cd3bd9ad9860f7c0092cd561931a36e
 
 BUILDCHAIN=cmake
 
@@ -31,10 +34,10 @@ if [ ! -z "${FC}" ]; then
       -D CMAKE_Fortran_COMPILER=${FC}"
 fi
 
-CONFOPTS="${CONFOPTS} \
-  -D CMAKE_CXX_FLAGS:STRING='-fPIC -g -O3' \
-  -D CMAKE_C_FLAGS:STRING='-fPIC -g -O3' \
-  -D CMAKE_FORTRAN_FLAGS:STRING='-g -O3'"
+CONFOPTS="\
+    ${CONFOPTS} \
+      -D CMAKE_C_FLAGS:STRING='-fPIC -g -O3' \
+      -D CMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON"
 
 
 # Set metis directories
@@ -68,9 +71,9 @@ else
   fi
 fi
 
-# auto build Scalapack if missing
-CONFOPTS="${CONFOPTS} \
-  -D autobuild=true"
+# auto build Scalapack if missing, we need to compile ScaLAPACK on our own.
+#CONFOPTS="${CONFOPTS} \
+#  -D autobuild=true"
 
 package_specific_register () {
     export MUMPS_DIR=${INSTALL_PATH}
