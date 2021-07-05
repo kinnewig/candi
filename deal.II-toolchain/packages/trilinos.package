@@ -90,6 +90,23 @@ if [ ! -z "${LAPACK_DIR}" ]; then
       -D LAPACK_LIBRARY_DIRS:STRING=${LAPACK_DIR}"
 fi
 
+if [ ! -z "${MUMPS_DIR}" ]; then
+    cecho ${INFO} "trilinos: configuration with MUMPS_DIR=${MUMPS_DIR}"
+    CONFOPTS="\
+      ${CONFOPTS} \
+      -D TPL_ENABLE_MUMPS=ON \
+      -D MUMPS_INCLUDE_DIRS:STRING=${MUMPS_DIR}/include \
+      -D MUMPS_LIBRARY_DIRS:STRING=${MUMPS_DIR}/lib"
+fi
+
+if [ ! -z "${SCALAPACK_DIR}" ]; then
+    cecho ${INFO} "trilinos: configuration with SCALAPACK_DIR=${SCALAPACK_DIR}"
+    CONFOPTS="\
+        ${CONFOPTS} \
+        -D TPL_ENABLE_SCALAPACK:BOOL=ON \
+        -D SCALAPACK_LIBRARY_DIRS=${SCALAPACK_DIR}/lib"
+fi
+
 # Set intel MKL options
 if [ "${MKL}" = "ON" ]; then
     cecho ${INFO} "trilinos: configuration with MKL"
@@ -201,7 +218,7 @@ CONFOPTS="\
   -D Trilinos_ENABLE_Stratimikos:BOOL=ON \
   -D TPL_ENABLE_Boost:BOOL=OFF \
   -D Trilinos_ENABLE_Belos:BOOL=ON \
-  -D Trilinos_ENABLE_Amesos2:BOOL=ON \
+  -D Trilinos_ENABLE_Amesos2:BOOL=OFF \
   -D CMAKE_BUILD_TYPE:STRING=RELEASE \
   -D CMAKE_VERBOSE_MAKEFILE:BOOL=OFF \
   -D BUILD_SHARED_LIBS:BOOL=ON \
