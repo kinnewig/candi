@@ -1,5 +1,5 @@
-MAJOR=3.16
-MINOR=3
+MAJOR=3.19
+MINOR=8
 VERSION=${MAJOR}.${MINOR}
 
 # We try to determine if we have a linux platform to use tarball install
@@ -16,15 +16,15 @@ if [ ${PLATFORM_OSTYPE} == "linux" ]; then
     # tarball install
     NAME=cmake-${VERSION}-Linux-x86_64
     PACKING=.tar.gz
-    # CHECKSUM=55e30dd01698e9409b576008fd22394c # 3.11.2
-    CHECKSUM=8f3dd8952ae9d532ae340c7d0f4cd1d7 # 3.16.3
+    # CHECKSUM=8f3dd8952ae9d532ae340c7d0f4cd1d7 # 3.16.3
+    CHECKSUM=20bc14b37c4d51d4f7d143646c8fadc0 # 3.19.8
     BUILDCHAIN=ignore
 else
     # configure/make/install
     NAME=cmake-${VERSION}
     PACKING=.tar.gz
-    # CHECKSUM=d2d554c05fc07cfae7846d2aa205f12a # 3.11.2
-    CHECKSUM=9e6fa59704d3a52812e279996b5b01c7 # 3.16.3
+    # CHECKSUM=9e6fa59704d3a52812e279996b5b01c7 # 3.16.3
+    CHECKSUM=eb8e262d4f24ce34439aaa6fac80ad0a # 3.19.8
 
     if builtin command -v cmake > /dev/null; then
         # configure/make with cmake (older or newer version already installed)    
