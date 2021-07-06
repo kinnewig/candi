@@ -294,6 +294,7 @@ verify_archive() {
 
 download_archive () {
     ARCHIVE_FILE=$1
+    DOWNLOAD_NAME=$2
 
     # Prepend MIRROR to SOURCE (to prefer) mirror source download
     if [ ! -z "${MIRROR}" ]; then
@@ -332,13 +333,13 @@ download_archive () {
         unset archive_state
 
         # Set up complete url
-        url=${source}${ARCHIVE_FILE}
+        url=${source}${DOWNLOAD_NAME}
         cecho ${INFO} "Trying to download ${url}"
 
         # Download.
         # If curl or wget is failing, continue this loop for trying an other mirror.
         if [ ${DOWNLOADER} = "curl" ]; then
-            curl -f -L -k -O ${url} || continue
+            curl -f -L -k ${url} -o ${ARCHIVE_FILE} || continue
         elif [ ${DOWNLOADER} = "wget" ]; then
             wget --no-check-certificate ${url} -O ${ARCHIVE_FILE} || continue
         else
@@ -361,7 +362,7 @@ download_archive () {
 
     # Unfortunately it seems that (all) download tryouts finally failed for some reason:
     verify_archive ${ARCHIVE_FILE}
-    quit_if_fail "Error verifying checksum for ${ARCHIVE_FILE}\nMake sure that you are connected to the internet."
+    quit_if_fail "Error verifying checksum for ${DOWNLOAD_NAME}\nMake sure that you are connected to the internet."
 }
 
 package_fetch () {
@@ -370,7 +371,13 @@ package_fetch () {
     # Fetch the package appropriately from its source
     if [ ${PACKING} = ".tar.bz2" ] || [ ${PACKING} = ".tar.gz" ] || [ ${PACKING} = ".tbz2" ] || [ ${PACKING} = ".tgz" ] || [ ${PACKING} = ".tar.xz" ] || [ ${PACKING} = ".zip" ]; then
         cd ${DOWNLOAD_PATH}
-        download_archive ${NAME}${PACKING}
+        if [ -z ${USE_VERSION} ]; then
+          download_archive ${NAME}${PACKING} ${NAME}${PACKING}
+        elif [ ${USE_VERSION} = "true" ]; then
+          download_archive ${NAME}${PACKING} ${VERSION}${PACKING}
+        else
+          download_archive ${NAME}${PACKING} ${NAME}${PACKING}
+        fi
         quit_if_fail "candi: download_archive ${NAME}${PACKING} failed"
 
     elif [ ${PACKING} = "git" ]; then
@@ -427,6 +434,10 @@ package_fetch () {
 }
 
 package_unpack() {
+    if [ ${DOWNLOADONLY} = "ON" ]; then
+        cecho "Skip the unpacking, since DOWNLOADONLY=ON"
+        return 0
+    fi
     # First make sure we're in the right directory before unpacking
     cd ${UNPACK_PATH}
     FILE_TO_UNPACK=${DOWNLOAD_PATH}/${NAME}${PACKING}
@@ -479,6 +490,11 @@ package_unpack() {
 }
 
 package_build() {
+    if [ ${DOWNLOADONLY} = "ON" ]; then
+        cecho "Skip the build, since DOWNLOADONLY=ON"
+        return 0
+    fi
+
     # Get things ready for the compilation process
     cecho ${GOOD} "Building ${PACKAGE} ${VERSION}"
 
@@ -585,12 +601,20 @@ package_build() {
 }
 
 package_register() {
+    if [ ${DOWNLOADONLY} = "ON" ]; then
+        cecho "Skip the register, since DOWNLOADONLY=ON"
+        return 0
+    fi
     # Set any package-specific environment variables
     package_specific_register
     quit_if_fail "There was a problem setting environment variables for ${PACKAGE} ${VERSION}."
 }
 
 package_conf() {
+    if [ ${DOWNLOADONLY} = "ON" ]; then
+        cecho "Skip the configuration, since DOWNLOADONLY=ON"
+        return 0
+    fi
     # Write any package-specific environment variables to a config file,
     # i.e. e.g. a modulefile or source-able *.conf file
     package_specific_conf

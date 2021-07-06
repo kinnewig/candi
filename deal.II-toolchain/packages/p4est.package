@@ -13,6 +13,7 @@ CHECKSUM="${CHECKSUM} 0ea6e4806b6950ad64e62a5607bfabbb"
 
 NAME=p4est-${VERSION}
 PACKING=.tar.gz
+USE_VERSION=false
 EXTRACTSTO=p4est-${VERSION}
 SOURCE=https://p4est.github.io/release/
 

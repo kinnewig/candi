@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ################################################################################
 ## ASSIMP                                                                     ##
 ################################################################################
@@ -18,6 +19,7 @@ if [ ${CANDI_ASSIMP_LOAD_TARBALL} = ON ]; then
     # CHECKSUM="${CHECKSUM} eb7b7385a5c3194ab46d7f869d7ac6cf"
 
     VERSION=4.1.0
+    USE_VERSION=false
     CHECKSUM=3520b1e9793b93a2ca3b797199e16f40d61762617e072f2d525fad70f9678a71
     CHECKSUM="${CHECKSUM} ce3589f9455c743e993fd802bdaaed72838cd3f4"
     CHECKSUM="${CHECKSUM} 83b53a10c38d964bd1e69da0606e2727"
@@ -30,6 +32,7 @@ else
 
     # VERSION=v5.0.1
     VERSION=v4.1.0
+    USE_VERSION=false
 
     NAME=assimp
     PACKING=git

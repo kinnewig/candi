@@ -24,6 +24,7 @@ if [ ${CANDI_GMSH_LOAD_TARBALL} = ON ]; then
     # CHECKSUM=762c10f159dab4b042e3140b1c348427
 
     NAME=gmsh-${VERSION}-source
+    USE_VERSION=false
     PACKING=.tgz
     EXTRACTSTO=gmsh-${VERSION}-source
     SOURCE=http://gmsh.info/src/

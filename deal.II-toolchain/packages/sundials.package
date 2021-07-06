@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ################################################################################
 ## SUNDIALS                                                                   ##
 ################################################################################
@@ -19,6 +20,7 @@ if [ ${CANDI_SUNDIALS_LOAD_TARBALL} = ON ]; then
     # CHECKSUM=1a84ca41c7f71067e03d519ddbcd9dae
 
     NAME=sundials-${VERSION}
+    USE_VERSION=false
     PACKING=.tar.gz
     EXTRACTSTO=sundials-${VERSION}
     SOURCE=https://github.com/LLNL/sundials/releases/download/v${VERSION}/

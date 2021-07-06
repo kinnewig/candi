@@ -1,8 +1,11 @@
 VERSION=${DEAL_II_VERSION}
-NAME=dealii.git
-EXTRACTSTO=deal.II-${VERSION}
-SOURCE=https://github.com/dealii/
-PACKING=git
+
+NAME=${VERSION}
+USE_VERSION=false
+EXTRACTSTO=dealii-${VERSION:1}
+
+SOURCE=https://github.com/dealii/dealii/archive/
+PACKING=.tar.gz
 BUILDCHAIN=cmake
 
 ################################################################################

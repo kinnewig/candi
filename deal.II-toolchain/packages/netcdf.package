@@ -2,6 +2,7 @@ VERSION=4.7.4
 CHECKSUM=33979e8f0cf4ee31323fc0934282111b
 EXTRACTSTO=netcdf-c-${VERSION}
 NAME=v${VERSION}
+USE_VERSION=false
 PACKING=.tar.gz
 SOURCE=https://github.com/Unidata/netcdf-c/archive/
 
