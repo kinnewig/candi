@@ -29,7 +29,7 @@ package_specific_build () {
 }
 
 package_specific_register () {
-    export BLIS_DIR=${INSTALL_PATH}/lib
+    export BLAS_DIR=${INSTALL_PATH}/lib
 }
 
 package_specific_conf () {
@@ -37,6 +37,6 @@ package_specific_conf () {
     CONFIG_FILE=${CONFIGURATION_PATH}/${EXTRACTSTO}
     rm -f $CONFIG_FILE
     echo "
-export BLIS_DIR=${INSTALL_PATH}/lib
+export BLAS_DIR=${INSTALL_PATH}/lib
 " >> $CONFIG_FILE
 }
