@@ -26,7 +26,7 @@ CONFOPTS="${CONFOPTS} \
 
 CONFOPTS="\
     ${CONFOPTS} \
-      -D CMAKE_C_FLAGS:STRING='-fPIC -g -O3' \
+      -D CMAKE_C_FLAGS:STRING='–march=native -fPIC -g -O3' \
       -D CMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON"
 
 
