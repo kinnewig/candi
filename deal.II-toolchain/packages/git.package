@@ -1,5 +1,6 @@
 VERSION=2.9.4
 NAME=git-${VERSION}
+USE_VERSION=false
 SOURCE=https://www.kernel.org/pub/software/scm/git/
 PACKING=.tar.gz
 CHECKSUM=60b7fd85c91ddb783ebd3e948efc5b13

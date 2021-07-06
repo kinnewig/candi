@@ -26,6 +26,7 @@ elif [ ${TRILINOS_MAJOR_VERSION} = "13" ]; then
 
     SOURCE=https://github.com/trilinos/Trilinos/archive/
     NAME=trilinos-release-${VERSION}
+    USE_VERSION=false
     EXTRACTSTO=Trilinos-trilinos-release-${VERSION}
     PACKING=.tar.gz
 
