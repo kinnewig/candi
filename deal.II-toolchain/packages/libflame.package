@@ -18,7 +18,7 @@ package_specific_build () {
     cd ${BUILDDIR}
     cp -rf ${UNPACK_PATH}/${EXTRACTSTO}/* .
 
-    export FLIBS="-lflang"
+    export FLIBS="-lflang -fpic"
 
     ./configure --enable-lapack2flame --enable-external-lapack-interfaces --enable-dynamic-build --enable-max-arg-list-hack --enable-f2c-dotc --prefix=${INSTALL_PATH}
     quit_if_fail "configure failed"
