@@ -20,6 +20,9 @@ package_specific_setup () {
         exit 1
     }
 
+    export CC=mpicc
+    export CXX=mpicxx
+
     # export zlib if we installed it ourselves
     if [ ! -z "${ZLIB_DIR}" ]; then
         if [ -z "${ZLIB_LIBPATH}" ]; then
@@ -81,11 +84,11 @@ package_specific_setup () {
     "${UNPACK_PATH}/${EXTRACTSTO}/configure" --enable-mpi --enable-shared \
         --disable-vtk-binary --without-blas \
         --prefix="$INSTALL_FAST" CFLAGS="$CFLAGS_FAST" \
-        CPPFLAGS="-DSC_LOG_PRIORITY=SC_LP_ESSENTIAL" F77="$FF" \
+        CPPFLAGS="-DSC_LOG_PRIORITY=SC_LP_ESSENTIAL" F77="mpifort" \
         "$@" > config.output || bdie "Error in configure"
-    make -C sc -j${JOBS} > make.output || bdie "Error in make sc"
-    make -j${JOBS} >> make.output || bdie "Error in make p4est"
-    make install >> make.output || bdie "Error in make install"
+    make CC=mpicc CXX=mpicxx -C sc -j${JOBS} > make.output || bdie "Error in make sc"
+    make CC=mpicc CXX=mpicxx -j${JOBS} >> make.output || bdie "Error in make p4est"
+    make CC=mpicc CXX=mpicxx install >> make.output || bdie "Error in make install"
     echo "FAST version installed in $INSTALL_FAST"
     
     echo
@@ -97,9 +100,9 @@ package_specific_setup () {
         --prefix="$INSTALL_DEBUG" CFLAGS="$CFLAGS_DEBUG" \
         CPPFLAGS="-DSC_LOG_PRIORITY=SC_LP_ESSENTIAL" F77="$FF" \
         "$@" > config.output || bdie "Error in configure"
-    make -C sc -j${JOBS} > make.output || bdie "Error in make sc"
-    make -j${JOBS} >> make.output || bdie "Error in make p4est"
-    make install >> make.output || bdie "Error in make install"
+    make CC=mpicc CXX=mpicxx -C sc -j${JOBS} > make.output || bdie "Error in make sc"
+    make CC=mpicc CXX=mpicxx -j${JOBS} >> make.output || bdie "Error in make p4est"
+    make CC=mpicc CXX=mpicxx install >> make.output || bdie "Error in make install"
     grep -q "#define P4EST_HAVE_ZLIB" $INSTALL_DEBUG/include/p4est_config.h || bdie "Error: p4est couldn't find zlib"
     echo "DEBUG version installed in $INSTALL_DEBUG"
     echo
