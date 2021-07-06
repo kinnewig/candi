@@ -42,25 +42,13 @@ for external_pkg in hypre; do
     CONFOPTS="${CONFOPTS} --download-${external_pkg}=1"
 done
 
-if [ ! -z "$CC" ]; then
-    CONFOPTS="${CONFOPTS} CC=$CC"
-fi
-
-if [ ! -z "$CXX" ]; then
-    CONFOPTS="${CONFOPTS} CXX=$CXX"
-fi
-
-if [ ! -z "$FC" ]; then
-    CONFOPTS="${CONFOPTS} FC=$FC"
-fi
-
-if [ ! -z "$F77" ]; then
-    CONFOPTS="${CONFOPTS} F77=$F77"
-fi
-
-if [ ! -z "$F90" ]; then
-    CONFOPTS="${CONFOPTS} F90=$F90"
-fi
+# Compiler options
+CONFOPTS="${CONFOPTS} \ 
+  CC=mpicc \ 
+  CXX=mpicxx \
+  FC=mpifort \
+  F77=mpifort \
+  F90=mpifort"
 
 if [ ! -z "${MKL_DIR}" ]; then
     cecho ${INFO} "petsc: configuration with MKL"
