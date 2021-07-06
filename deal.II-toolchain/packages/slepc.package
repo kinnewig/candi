@@ -21,9 +21,11 @@ INSTALL_PATH=${INSTALL_PATH}/${NAME}
 
 ##############################################################################
 
-if [ -z "${PETSC_DIR}" ]; then
-    cecho ${BAD} "slepc: error petsc variable PETSC_DIR not found."
-    exit 1
+if [ ${DOWNLOADONLY} = "OFF" ]; then
+  if [ -z "${PETSC_DIR}" ]; then
+      cecho ${BAD} "slepc: error petsc variable PETSC_DIR not found."
+      exit 1
+  fi
 fi
 
 package_specific_setup () {
