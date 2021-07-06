@@ -423,6 +423,10 @@ package_fetch () {
 }
 
 package_unpack() {
+    if [ ${DOWNLOADONLY} = "ON" ]; then
+        cecho "Skip the unpacking, since DOWNLOADONLY=ON"
+        return 0
+    fi
     # First make sure we're in the right directory before unpacking
     cd ${UNPACK_PATH}
     FILE_TO_UNPACK=${DOWNLOAD_PATH}/${NAME}${PACKING}
@@ -475,6 +479,11 @@ package_unpack() {
 }
 
 package_build() {
+    if [ ${DOWNLOADONLY} = "ON" ]; then
+        cecho "Skip the build, since DOWNLOADONLY=ON"
+        return 0
+    fi
+
     # Get things ready for the compilation process
     cecho ${GOOD} "Building ${PACKAGE} ${VERSION}"
 
@@ -581,12 +590,20 @@ package_build() {
 }
 
 package_register() {
+    if [ ${DOWNLOADONLY} = "ON" ]; then
+        cecho "Skip the register, since DOWNLOADONLY=ON"
+        return 0
+    fi
     # Set any package-specific environment variables
     package_specific_register
     quit_if_fail "There was a problem setting environment variables for ${PACKAGE} ${VERSION}."
 }
 
 package_conf() {
+    if [ ${DOWNLOADONLY} = "ON" ]; then
+        cecho "Skip the configuration, since DOWNLOADONLY=ON"
+        return 0
+    fi
     # Write any package-specific environment variables to a config file,
     # i.e. e.g. a modulefile or source-able *.conf file
     package_specific_conf
