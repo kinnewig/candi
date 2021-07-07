@@ -37,10 +37,10 @@ if [ ${NATIVE_OPTIMIZATIONS} = ON ]; then
       FOPTFLAGS='-O3 -march=native -mtune=native'"
 fi
 
-
-for external_pkg in hypre; do
-    CONFOPTS="${CONFOPTS} --download-${external_pkg}=1"
-done
+# deactivated hypre
+#for external_pkg in hypre; do
+#    CONFOPTS="${CONFOPTS} --download-${external_pkg}=1"
+#done
 
 # Compiler options
 CONFOPTS="${CONFOPTS} \ 
@@ -69,9 +69,24 @@ if [ ! -z "${PARMETIS_DIR}" ]; then
         --with-parmetis-dir=${PARMETIS_DIR} \
 	--with-metis-dir=${PARMETIS_DIR}"
 
-    for external_pkg in scalapack mumps; do
-        CONFOPTS="${CONFOPTS} --download-${external_pkg}=1"
-    done
+    # manually specify the path to these packages later
+    #for external_pkg in scalapack mumps; do
+    #    CONFOPTS="${CONFOPTS} --download-${external_pkg}=1"
+    #done
+fi
+
+if [ ! -z "${SCALAPACK_DIR}" ]; then
+    cecho ${INFO} "PETSc: configuration with SCALAPACK"
+    CONFOPTS="\
+        ${CONFOPTS} \
+        --with-scalapack-dir=${SCALAPACK_DIR}"
+fi
+
+if [ ! -z "${MUMPS_DIR}" ]; then
+    cecho ${INFO} "PETSc: configuration with MUMPS"
+    CONFOPTS="\
+        ${CONFOPTS} \
+        --with-mumps-dir=${MUMPS_DIR}"
 fi
 
 #########################################################################
