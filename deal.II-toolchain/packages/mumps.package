@@ -26,7 +26,8 @@ CONFOPTS="${CONFOPTS} \
 
 CONFOPTS="\
     ${CONFOPTS} \
-      -D CMAKE_C_FLAGS:STRING='-fPIC -g -O3' \
+      -D CMAKE_C_FLAGS:STRING='-fPIC -g -O3 -march=native -lamd_memcpy' \
+      -D CMAKE_C_STANDARD_LIBRARIES='${AOCL_ROOT}/lib/libalm.so ${AOCL_MEMORY}/lib/libamd_memcpy.so'
       -D CMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON"
 
 
