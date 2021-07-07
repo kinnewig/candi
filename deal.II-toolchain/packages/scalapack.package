@@ -37,10 +37,10 @@ if [ ! -z "${BLAS_DIR}" ]; then
       -D BLAS_LIBRARIES="${BLAS_DIR}/libblis.a""
 fi
 
-if [ ! -z "${LAPACK_DIR}" ]; then
-    cecho ${INFO} "SCALAPACK: configuration with LAPACK_DIR=${LAPACK_DIR}"
+if [ ! -z "${LIBFLAME_LAPACK_DIR}" ]; then
+    cecho ${INFO} "SCALAPACK: configuration with LIBFLAME_LAPACK_DIR=${LIBFLAME_LAPACK_DIR}"
     CONFOPTS="${CONFOPTS} \
-      -D LAPACK_LIBRARIES="${LAPACK_DIR}/libflame.a""
+      -D LAPACK_LIBRARIES="${LIBFLAME_LAPACK_DIR}/libflame.a""
 fi
 
 

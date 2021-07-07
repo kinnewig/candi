@@ -54,10 +54,10 @@ if [ ! -z "${BLAS_DIR}" ]; then
       -D BLAS_LIBRARY_DIRS:STRING=${BLAS_DIR}"
 fi
 
-if [ ! -z "${LAPACK_DIR}" ]; then
-    cecho ${INFO} "trilinos: configuration with LAPACK_DIR=${LAPACK_DIR}"
+if [ ! -z "${LIBFLAME_LAPACK_DIR}" ]; then
+    cecho ${INFO} "trilinos: configuration with LIBFLAME_LAPACK_DIR=${LIBFLAME_LAPACK_DIR}"
     CONFOPTS="${CONFOPTS} \
-      -D LAPACK_LIBRARY_DIRS:STRING=${LAPACK_DIR}"
+      -D LAPACK_LIBRARY_DIRS:STRING=${LIBFLAME_LAPACK_DIR}"
 fi
 
 if [ ! -z "${MUMPS_DIR}" ]; then
@@ -81,9 +81,9 @@ fi
 if [ "${MKL}" = "ON" ]; then
     cecho ${INFO} "trilinos: configuration with MKL"
 
-    if [ -z "${BLAS_DIR}" ] && [ -z "${LAPACK_DIR}" ]; then
+    if [ -z "${BLAS_DIR}" ] && [ -z "${LIBFLAME_LAPACK_DIR}" ]; then
         cecho ${INFO} "trilinos: configuration with BLAS_DIR=${MKL_DIR}"
-        cecho ${INFO} "trilinos: configuration with LAPACK_DIR=${MKL_DIR}"
+        cecho ${INFO} "trilinos: configuration with LIBFLAME_LAPACK_DIR=${MKL_DIR}"
         CONFOPTS="${CONFOPTS} \
           -D BLAS_LIBRARY_DIRS:STRING=${MKL_DIR} \
           -D LAPACK_LIBRARY_DIRS:STRING=${MKL_DIR}"

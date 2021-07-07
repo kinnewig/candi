@@ -53,10 +53,10 @@ if [ ! -z "${BLACS_DIR}" ]; then
       -D MKL_INCLUDE_DIRS=${BLACS_DIR}"
 fi
 
-if [ ! -z "${LAPACK_DIR}" ]; then
-    cecho ${INFO} "MUMPS: configuration with LAPACK_DIR=${LAPACK_DIR}"
+if [ ! -z "${LIBFLAME_LAPACK_DIR}" ]; then
+    cecho ${INFO} "MUMPS: configuration with LIBFLAME_LAPACK_DIR=${LIBFLAME_LAPACK_DIR}"
     CONFOPTS="${CONFOPTS} \
-      -D pc_lapack_LIBRARY_DIRS=${LAPACK_DIR}/lib"
+      -D pc_lapack_LIBRARY_DIRS=${LIBFLAME_LAPACK_DIR}/lib"
 fi
 
 if [ ! -z "${SCALAPACK_DIR}" ]; then

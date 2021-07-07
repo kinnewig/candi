@@ -31,7 +31,7 @@ package_specific_build () {
 }
 
 package_specific_register () {
-    export LAPACK_DIR=${INSTALL_PATH}
+    export LIBFLAME_LAPACK_DIR=${INSTALL_PATH}
 }
 
 package_specific_conf () {
@@ -39,6 +39,6 @@ package_specific_conf () {
     CONFIG_FILE=${CONFIGURATION_PATH}/${EXTRACTSTO}
     rm -f $CONFIG_FILE
     echo "
-export LAPACK_DIR=${INSTALL_PATH}
+export LIBFLAME_LAPACK_DIR=${INSTALL_PATH}
 " >> $CONFIG_FILE
 }
