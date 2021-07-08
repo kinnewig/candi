@@ -20,14 +20,17 @@ INSTALL_PATH=${INSTALL_PATH}/scalapack-${VERSION}
 
 # Set compilers & compiler options
 CONFOPTS="${CONFOPTS} \
-    -D CMAKE_C_COMPILER=${MPI_C}"
-
-CONFOPTS="${CONFOPTS} \
+    -D CMAKE_C_COMPILER=mpicc \
     -D CMAKE_Fortran_COMPILER=mpif90"
+
+CONFOPTS="\
+    ${CONFOPTS} \
+      -D CMAKE_C_FLAGS:STRING="-march=native -lalm -lm -ffastmath -lamd_memcpy" \
+      -D CMAKE_C_STANDARD_LIBRARIES="-l ${AOCL_LIBM_ROOT}/lib/libalm.so -l ${AOCL_MEMORY_ROOT}/lib/libamd_memcpy.so""
 
 CONFOPTS="${CONFOPTS} \
     -D BUILD_SHARED_LIBS=ON \
-    -D USE_OPTIMIZED_LAPACK_BLAS=OFF 
+    -D USE_OPTIMIZED_LAPACK_BLAS=OFF \
     -D USE_F2C=ON"
 
 # Set blas and lapack directories (if MKL is not used)
@@ -40,7 +43,7 @@ fi
 if [ ! -z "${LIBFLAME_LAPACK_DIR}" ]; then
     cecho ${INFO} "SCALAPACK: configuration with LIBFLAME_LAPACK_DIR=${LIBFLAME_LAPACK_DIR}"
     CONFOPTS="${CONFOPTS} \
-      -D LAPACK_LIBRARIES="${LIBFLAME_LAPACK_DIR}/libflame.a""
+      -D LAPACK_LIBRARIES="${LIBFLAME_LAPACK_DIR}/lib/libflame.a""
 fi
 
 
