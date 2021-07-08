@@ -12,7 +12,7 @@ SOURCE=http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-${MAJORVER}/${NAME}/src/
 PACKING=.tar.gz
 BUILDCHAIN=autotools
 
-CONFOPTS="--enable-shared --enable-parallel CC=mpicc CXX=mpicxx FC=mpifort FF=mpifort"
+CONFOPTS="--enable-shared --enable-parallel CC=${MPI_C} CXX=${MPI_CXX} FC=${MPI_FORT} FF=${MPI_FORT}"
 
 INSTALL_PATH=${INSTALL_PATH}/${NAME}
 

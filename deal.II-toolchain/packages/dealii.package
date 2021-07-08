@@ -47,8 +47,8 @@ if [ ${USE_DEAL_II_CMAKE_MPI_COMPILER} = ON ]; then
     # https://github.com/dealii/dealii/issues/11478 and set MPI_*_COMPILER
     # cmake variables. This only works for recent CMake versions.
     CONFOPTS="${CONFOPTS} \
-    -D MPI_CXX_COMPILER=mpicxx \
-    -D MPI_C_COMPILER=mpicc"
+    -D MPI_CXX_COMPILER=${MPI_CXX} \
+    -D MPI_C_COMPILER=${MPI_C}"
 
     unset CXX
     unset CC

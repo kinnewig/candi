@@ -110,9 +110,9 @@ fi
 
 # Set compilers & compiler options
 CONFOPTS="${CONFOPTS} \
-  -D CMAKE_C_COMPILER=mpicc \
-  -D CMAKE_CXX_COMPILER=mpicxx \
-  -D CMAKE_Fortran_COMPILER=mpifort"
+  -D CMAKE_C_COMPILER=${MPI_C} \
+  -D CMAKE_CXX_COMPILER=${MPI_CXX} \
+  -D CMAKE_Fortran_COMPILER=${MPI_FORT}"
 
 CONFOPTS="${CONFOPTS} \
   -D CMAKE_CXX_FLAGS:STRING='-fPIC -g -O3' \

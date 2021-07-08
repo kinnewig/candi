@@ -44,11 +44,11 @@ fi
 
 # Compiler options
 CONFOPTS="${CONFOPTS} \ 
-  CC=mpicc \ 
-  CXX=mpicxx \
-  FC=mpifort \
-  F77=mpifort \
-  F90=mpifort"
+  CC=${MPI_C} \ 
+  CXX=${MPI_CXX} \
+  FC=${MPI_FORT} \
+  F77=${MPI_FORT} \
+  F90=${MPI_FORT}"
 
 if [ ! -z "${MKL_DIR}" ]; then
     cecho ${INFO} "petsc: configuration with MKL"

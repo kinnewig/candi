@@ -20,7 +20,7 @@ INSTALL_PATH=${INSTALL_PATH}/scalapack-${VERSION}
 
 # Set compilers & compiler options
 CONFOPTS="${CONFOPTS} \
-    -D CMAKE_C_COMPILER=mpicc"
+    -D CMAKE_C_COMPILER=${MPI_C}"
 
 CONFOPTS="${CONFOPTS} \
     -D CMAKE_Fortran_COMPILER=mpif90"
