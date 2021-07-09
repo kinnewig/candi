@@ -334,7 +334,7 @@ download_archive () {
         # Download.
         # If curl or wget is failing, continue this loop for trying an other mirror.
         if [ ${DOWNLOADER} = "curl" ]; then
-            curl -f -L -k -O ${url} || continue
+            curl -f -L -k -o ${NAME} -O ${url} || continue
         elif [ ${DOWNLOADER} = "wget" ]; then
             wget --no-check-certificate ${url} -O ${ARCHIVE_FILE} || continue
         else
@@ -367,6 +367,10 @@ package_fetch () {
     if [ ${PACKING} = ".tar.bz2" ] || [ ${PACKING} = ".tar.gz" ] || [ ${PACKING} = ".tbz2" ] || [ ${PACKING} = ".tgz" ] || [ ${PACKING} = ".tar.xz" ] || [ ${PACKING} = ".zip" ]; then
         cd ${DOWNLOAD_PATH}
         download_archive ${NAME}${PACKING}
+        quit_if_fail "candi: download_archive ${NAME}${PACKING} failed"
+
+    elif [ ${PACKING} = ".tar.gz-VERSION"  ]; then
+        download_archive ${VERSION}.tar.gz
         quit_if_fail "candi: download_archive ${NAME}${PACKING} failed"
 
     elif [ ${PACKING} = "git" ]; then

@@ -5,8 +5,8 @@
 VERSION=3.0
 EXTRACTSTO=scalapack-${VERSION}
 
-NAME=${VERSION}
-PACKING=.tar.gz
+NAME=scalapack-${VERSION}
+PACKING=.tar.gz-VERSION
 
 SOURCE=https://github.com/amd/scalapack/archive/
 CHECKSUM=7b7de6033ad039643b95af60f9a82f68

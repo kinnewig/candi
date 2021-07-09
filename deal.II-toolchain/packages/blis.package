@@ -2,12 +2,12 @@
 ## BLIS                                                                       ##
 ################################################################################
 
-VERSION=3.0
-CHECKSUM=31141b27f671c25190367bb376a6db43
+VERSION=3.0.1
+CHECKSUM=f6e2934bbd9813e821c02ff59a041373
 
-NAME=${VERSION}
+NAME=blis-${VERSION}
+PACKING=.tar.gz-VERSION
 SOURCE=https://github.com/amd/blis/archive/
-PACKING=.tar.gz
 EXTRACTSTO=blis-${VERSION}
 BUILDDIR=${BUILD_PATH}/${EXTRACTSTO}
 INSTALL_PATH=${INSTALL_PATH}/${EXTRACTSTO}
