@@ -20,18 +20,14 @@ INSTALL_PATH=${INSTALL_PATH}/mumps-${VERSION}
 
 # Set compilers & compiler options
 CONFOPTS="${CONFOPTS} \
-  -D CMAKE_C_COMPILER=${MPI_C} \
-  -D CMAKE_CXX_COMPILER=${MPI_CXX} \
-  -D CMAKE_Fortran_COMPILER=${MPI_FORT}"
+  -D CMAKE_C_COMPILER=mpicc \
+  -D CMAKE_CXX_COMPILER=mpicxx \
+  -D CMAKE_Fortran_COMPILER=mpifort"
 
 CONFOPTS="\
     ${CONFOPTS} \
-      -D CMAKE_C_FLAGS:STRING="-fPIC -g -O3 -march=native -lalm -lm -ffastmath -lamd_memcpy" \
-      -D CMAKE_CXX_FLAGS:STRING="-fPIC -g -O3 -march=native -lalm -lm -ffastmath -lamd_memcpy" \
-      -D CMAKE_Fortran_FLAGS:STRING="-fPIC -g -O3 -march=native -lalm -lm -ffastmath -lamd_memcpy" \
-      -D CMAKE_C_STANDARD_LIBRARIES="-l ${AOCL_LIBM_ROOT}/lib/libalm.so -l ${AOCL_MEMORY_ROOT}/lib/libamd_memcpy.so" \
-      -D CMAKE_CXX_STANDARD_LIBRARIES="-l ${AOCL_LIBM_ROOT}/lib/libalm.so -l ${AOCL_MEMORY_ROOT}/lib/libamd_memcpy.so" \
-      -D CMAKE_Fortran_STANDARD_LIBRARIES="-l ${AOCL_LIBM_ROOT}/lib/libalm.so -l ${AOCL_MEMORY_ROOT}/lib/libamd_memcpy.so" \
+      -D CMAKE_C_FLAGS:STRING='-march=native -fPIC -g -O3' \
+      -D CMAKE_Fortran_FLAGS:STRING='-march=native -fPIC -g -O3' \
       -D CMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON"
 
 
@@ -59,7 +55,7 @@ if [ ! -z "${BLACS_DIR}" ]; then
 fi
 
 if [ ! -z "${LIBFLAME_LAPACK_DIR}" ]; then
-    cecho ${INFO} "MUMPS: configuration with LIBFLAME_LAPACK_DIR=${LIBFLAME_LAPACK_DIR}"
+    cecho ${INFO} "MUMPS: configuration with LAPACK_DIR=${LIBFLAME_LAPACK_DIR}"
     CONFOPTS="${CONFOPTS} \
       -D pc_lapack_LIBRARY_DIRS=${LIBFLAME_LAPACK_DIR}/lib"
 fi

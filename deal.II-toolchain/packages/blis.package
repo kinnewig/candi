@@ -18,7 +18,7 @@ package_specific_build () {
     cd ${BUILDDIR}
     cp -rf ${UNPACK_PATH}/${EXTRACTSTO}/* .
 
-    ./configure --enable-cblas  --prefix=${INSTALL_PATH} CFLAGS="-DAOCL_F2C" CXXFLAGS="-DAOCL_F2C" CC=${CC} CXX=${CXX} ${AMD_ARCHITECTURE}
+    ./configure --enable-cblas  --prefix=${INSTALL_PATH} CFLAGS="-DAOCL_F2C -fPIC" CXXFLAGS="-DAOCL_F2C -fPIC" CC=${CC} CXX=${CXX} ${AMD_ARCHITECTURE}
     quit_if_fail "configure failed"
 
     make -j ${JOBS} 
