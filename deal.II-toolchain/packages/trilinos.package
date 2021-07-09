@@ -115,9 +115,9 @@ CONFOPTS="${CONFOPTS} \
   -D CMAKE_Fortran_COMPILER=${MPI_FORT}"
 
 CONFOPTS="${CONFOPTS} \
-  -D CMAKE_CXX_FLAGS:STRING="-march=native -lalm -lm -ffastmath -lamd_memcpy -fPIC -g -O3" \
-  -D CMAKE_C_FLAGS:STRING="-march=native -lm -ffastmath -lamd_memcpy -fPIC -g -O3" \
-  -D CMAKE_FORTRAN_FLAGS:STRING="-march=native -lalm -lm -ffastmath -lamd_memcpy -g -O3" \
+  -D CMAKE_CXX_FLAGS:STRING="-lalm -lm -ffastmath -lamd_memcpy -fPIC -g -O3" \
+  -D CMAKE_C_FLAGS:STRING="-lm -ffastmath -lamd_memcpy -fPIC -g -O3" \
+  -D CMAKE_FORTRAN_FLAGS:STRING="-lalm -lm -ffastmath -lamd_memcpy -g -O3" \
   -D CMAKE_C_STANDARD_LIBRARIES="-l ${AOCL_LIBM_ROOT}/lib/libalm.so -l ${AOCL_MEMORY_ROOT}/lib/libamd_memcpy.so" \
   -D CMAKE_CXX_STANDARD_LIBRARIES="-l ${AOCL_LIBM_ROOT}/lib/libalm.so -l ${AOCL_MEMORY_ROOT}/lib/libamd_memcpy.so" \
   -D CMAKE_FORTRAN_STANDARD_LIBRARIES="-l ${AOCL_LIBM_ROOT}/lib/libalm.so -l ${AOCL_MEMORY_ROOT}/lib/libamd_memcpy.so" \

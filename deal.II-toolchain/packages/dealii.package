@@ -56,8 +56,8 @@ fi
 
 CONFOPTS="${CONFOPTS} \
   -D MPI_CXX_COMPILER=${MPI_CXX} \
-  -D MPI_C_COMPILER=${MPI_C} \"
-  -D MPI_Fortran_COMPILER=mpif90 \"
+  -D MPI_C_COMPILER=${MPI_C} \
+  -D MPI_Fortran_COMPILER=mpif90 \
   -D CMAKE_C_COMPILER=${MPI_C} \
   -D CMAKE_CXX_COMPILER=${MPI_CXX} \
   -D CMAKE_Fortran_COMPILER=${MPI_FORT}"
@@ -69,13 +69,10 @@ CONFOPTS="\
       -D CMAKE_C_STANDARD_LIBRARIES="-l ${AOCL_LIBM_ROOT}/lib/libalm.so -l ${AOCL_MEMORY_ROOT}/lib/libamd_memcpy.so" \
       -D CMAKE_CXX_STANDARD_LIBRARIES="-l ${AOCL_LIBM_ROOT}/lib/libalm.so -l ${AOCL_MEMORY_ROOT}/lib/libamd_memcpy.so" "
 
-CONFOPTS="${CONFOPTS} \
-
 
 # add the user-specified flags at the end (so things can be overriden):
 CONFOPTS="${CONFOPTS} \
-    ${DEAL_II_CONFOPTS} \
-    -D LAPACK_LIBRARIES="/home/sebastian/Software/deal.ii-candi-9.3.1-aocc/blis-3.0/lib/libblis.so"" 
+    ${DEAL_II_CONFOPTS}"
 
 ################################################################################
 # Check if we hit cmake-3.10+ and deal.II v8.5.1 configure error (MPI / FindMPI)
