@@ -1,5 +1,6 @@
 VERSION=2.04
 NAME=astyle_${VERSION}_linux
+USE_VERSION=false
 SOURCE=https://downloads.sourceforge.net/project/astyle/astyle/astyle%202.04/
 PACKING=.tar.gz
 EXTRACTSTO=astyle

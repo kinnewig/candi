@@ -6,6 +6,7 @@ VERSION=5.4.0.5
 EXTRACTSTO=mumps-${VERSION}
 
 NAME=v${VERSION}
+USE_VERSION=false
 PACKING=.tar.gz
 
 SOURCE=https://github.com/scivision/mumps/archive/

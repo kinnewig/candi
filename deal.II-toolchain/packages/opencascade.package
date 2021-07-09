@@ -25,6 +25,7 @@ if [ ${CANDI_OPENCASCADE_LOAD_TARBALL} = ON ]; then
     # CHECKSUM=f1a89395c4b0d199bea3db62b85f818d
 
     NAME=OCE-${VERSION}
+    USE_VERSION=false
     SOURCE=https://github.com/tpaviot/oce/archive/
     EXTRACTSTO=oce-OCE-${VERSION}
     PACKING=.tar.gz
@@ -42,6 +43,7 @@ else
     EXTRACTSTO=OCE-${VERSION}
     SOURCE=https://github.com/tpaviot/
 fi
+
 unset CANDI_OPENCASCADE_LOAD_TARBALL
 
 BUILDCHAIN=cmake
