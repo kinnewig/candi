@@ -1,5 +1,6 @@
 VERSION=3.1.0
 NAME=sundials-${VERSION}
+USE_VERSION=false
 EXTRACTSTO=sundials-${VERSION}
 SOURCE=https://computation.llnl.gov/projects/sundials/download/
 CHECKSUM=1a84ca41c7f71067e03d519ddbcd9dae

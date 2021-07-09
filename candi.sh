@@ -290,6 +290,7 @@ verify_archive() {
 
 download_archive () {
     ARCHIVE_FILE=$1
+    DOWNLOAD_NAME=$2
 
     # Prepend MIRROR to SOURCE (to prefer) mirror source download
     if [ ! -z "${MIRROR}" ]; then
@@ -334,9 +335,9 @@ download_archive () {
         # Download.
         # If curl or wget is failing, continue this loop for trying an other mirror.
         if [ ${DOWNLOADER} = "curl" ]; then
-            curl -f -L -k -o ${NAME} -O ${url} || continue
+            curl -f -L -k ${url} -o ${DOWNLOAD_NAME} || continue
         elif [ ${DOWNLOADER} = "wget" ]; then
-            wget --no-check-certificate ${url} -O ${ARCHIVE_FILE} || continue
+            wget --no-check-certificate ${url} -O ${DOWNLOAD_NAME} || continue
         else
             cecho ${BAD} "candi: Unknown downloader: ${DOWNLOADER}"
             exit 1
@@ -345,7 +346,7 @@ download_archive () {
         unset url
 
         # Verify the download
-        verify_archive ${ARCHIVE_FILE}
+        verify_archive ${DOWNLOAD_NAME}
         archive_state=$?
         if [ ${archive_state} = 0 ] || [ ${archive_state} = 1 ] || [ ${archive_state} = 4 ]; then
             # If the download was successful, and the CHECKSUM is matching, skipped, or not possible
@@ -356,8 +357,8 @@ download_archive () {
     done
 
     # Unfortunately it seems that (all) download tryouts finally failed for some reason:
-    verify_archive ${ARCHIVE_FILE}
-    quit_if_fail "Error verifying checksum for ${ARCHIVE_FILE}\nMake sure that you are connected to the internet."
+    verify_archive ${DOWNLOAD_NAME}
+    quit_if_fail "Error verifying checksum for ${DOWNLOAD_NAME}\nMake sure that you are connected to the internet."
 }
 
 package_fetch () {
@@ -366,11 +367,13 @@ package_fetch () {
     # Fetch the package appropriately from its source
     if [ ${PACKING} = ".tar.bz2" ] || [ ${PACKING} = ".tar.gz" ] || [ ${PACKING} = ".tbz2" ] || [ ${PACKING} = ".tgz" ] || [ ${PACKING} = ".tar.xz" ] || [ ${PACKING} = ".zip" ]; then
         cd ${DOWNLOAD_PATH}
-        download_archive ${NAME}${PACKING}
-        quit_if_fail "candi: download_archive ${NAME}${PACKING} failed"
-
-    elif [ ${PACKING} = ".tar.gz-VERSION"  ]; then
-        download_archive ${VERSION}.tar.gz
+        if [ -z ${USE_VERSION} ]; then
+          download_archive ${NAME}${PACKING} ${NAME}${PACKING}
+        elif [ ${USE_VERSION} = "true" ]; then
+          download_archive ${VERSION}${PACKING} ${NAME}${PACKING}
+        else
+          download_archive ${NAME}${PACKING} ${NAME}${PACKING}
+        fi
         quit_if_fail "candi: download_archive ${NAME}${PACKING} failed"
 
     elif [ ${PACKING} = "git" ]; then

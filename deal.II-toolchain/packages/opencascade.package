@@ -31,6 +31,7 @@ else
     CHECKSUM=6dfd68e459e2c62387579888a867281f
 
     NAME=OCE-${VERSION}
+    USE_VERSION=false
     PACKING=.tar.gz
     SOURCE=https://github.com/tpaviot/oce/archive/
     EXTRACTSTO=oce-OCE-${VERSION}

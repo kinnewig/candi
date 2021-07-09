@@ -14,7 +14,8 @@ else
     # download release tarball
 
     VERSION=2.7.2
-    NAME=${VERSION}
+    NAME=adol-${VERSION}
+    USE_VERSION=true
     EXTRACTSTO=ADOL-C-releases-${VERSION}
     SOURCE=https://github.com/coin-or/ADOL-C/archive/releases/
     CHECKSUM=ea05bd8e0d6c92d474204876fdcad04d

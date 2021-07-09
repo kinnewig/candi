@@ -6,6 +6,7 @@ CHECKSUM=78bbfdd695b29cfef18a99f93226afc5
 #CHECKSUM=762c10f159dab4b042e3140b1c348427
 
 NAME=gmsh-${VERSION}-source
+USE_VERSION=false
 PACKING=.tgz
 SOURCE=http://gmsh.info/src/
 EXTRACTSTO=gmsh-${VERSION}-source

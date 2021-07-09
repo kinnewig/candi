@@ -2,6 +2,7 @@ VERSION=2.2.6.1
 CHECKSUM=410d29b4c58d1cdc2fc9ed1c1c7f67fe
 
 NAME=v${VERSION}
+USE_VERSION=false
 PACKING=.tar.gz
 SOURCE=https://github.com/beltoforion/muparser/archive/
 EXTRACTSTO=muparser-${VERSION}

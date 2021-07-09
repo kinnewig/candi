@@ -8,6 +8,7 @@ CHECKSUM=2ca05b9cee97f0d1a8ab15bd6ea2b747
 #CHECKSUM=48637eb29f5b492b91459175dcc574b1
 
 NAME=v${VERSION}
+USE_VERSION=false
 SOURCE=https://github.com/xianyi/OpenBLAS/archive/
 PACKING=.tar.gz
 EXTRACTSTO=OpenBLAS-${VERSION}

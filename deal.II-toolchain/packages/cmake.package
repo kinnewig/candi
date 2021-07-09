@@ -1,6 +1,7 @@
 MAJOR=3.19
 MINOR=8
 VERSION=${MAJOR}.${MINOR}
+USE_VERSION=false
 
 # We try to determine if we have a linux platform to use tarball install
 # instead of configure/make due to possible missing autotools on some

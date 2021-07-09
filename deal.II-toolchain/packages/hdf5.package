@@ -8,6 +8,7 @@ CHECKSUM=006ed785942f4ed9a6f31556d0ef8ba5
 
 VERSION=${MAJORVER}.${MINORVER}
 NAME=hdf5-${VERSION}
+USE_VERSION=false
 SOURCE=http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-${MAJORVER}/${NAME}/src/
 PACKING=.tar.gz
 BUILDCHAIN=autotools
