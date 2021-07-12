@@ -289,8 +289,8 @@ verify_archive() {
 }
 
 download_archive () {
-    ARCHIVE_FILE=$1
-    DOWNLOAD_NAME=$2
+    DOWNLOAD_NAME=$1
+    ARCHIVE_FILE=$2
 
     # Prepend MIRROR to SOURCE (to prefer) mirror source download
     if [ ! -z "${MIRROR}" ]; then
@@ -329,15 +329,15 @@ download_archive () {
         unset archive_state
 
         # Set up complete url
-        url=${source}${ARCHIVE_FILE}
+        url=${source}${DOWNLOAD_NAME}
         cecho ${INFO} "Trying to download ${url}"
 
         # Download.
         # If curl or wget is failing, continue this loop for trying an other mirror.
         if [ ${DOWNLOADER} = "curl" ]; then
-            curl -f -L -k ${url} -o ${DOWNLOAD_NAME} || continue
+            curl -f -L -k ${url} -o ${ARCHIVE_FILE} || continue
         elif [ ${DOWNLOADER} = "wget" ]; then
-            wget --no-check-certificate ${url} -O ${DOWNLOAD_NAME} || continue
+            wget --no-check-certificate ${url} -O ${ARCHIVE_FILE} || continue
         else
             cecho ${BAD} "candi: Unknown downloader: ${DOWNLOADER}"
             exit 1
@@ -346,7 +346,7 @@ download_archive () {
         unset url
 
         # Verify the download
-        verify_archive ${DOWNLOAD_NAME}
+        verify_archive ${ARCHIVE_FILE}
         archive_state=$?
         if [ ${archive_state} = 0 ] || [ ${archive_state} = 1 ] || [ ${archive_state} = 4 ]; then
             # If the download was successful, and the CHECKSUM is matching, skipped, or not possible
