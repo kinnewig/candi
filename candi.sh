@@ -210,6 +210,7 @@ quit_if_fail() {
 # is determined. The first matching checksum verifies the archive.
 verify_archive() {
     ARCHIVE_FILE=$1
+    echo "${ARCHIVE_FILE}"
 
     # Make sure the archive was downloaded
     if [ ! -e ${ARCHIVE_FILE} ]; then
@@ -304,6 +305,8 @@ download_archive () {
         # * Remove corrupted ARCHIVE_FILE
         verify_archive ${ARCHIVE_FILE}
         archive_state=$?
+
+        echo "archive_state = ${archive_state}"
 
         if [ ${archive_state} = 0 ]; then
              cecho ${INFO} "${ARCHIVE_FILE} already downloaded and verified."
