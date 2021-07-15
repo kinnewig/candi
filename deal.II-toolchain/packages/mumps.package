@@ -20,14 +20,25 @@ INSTALL_PATH=${INSTALL_PATH}/mumps-${VERSION}
 
 
 # Set compilers & compiler options
-CONFOPTS="${CONFOPTS} \
-  -D CMAKE_C_COMPILER=mpicc \
-  -D CMAKE_CXX_COMPILER=mpicxx \
-  -D CMAKE_Fortran_COMPILER=mpifort"
+if [ ! -z "${MPI_CC}" ]; then
+    CONFOPTS="${CONFOPTS} \
+      -D CMAKE_C_COMPILER=${MPI_CC}"
+fi
+
+if [ ! -z "${MPI_CXX}" ]; then
+    CONFOPTS="${CONFOPTS} \
+      -D CMAKE_CXX_COMPILER=${MPI_CXX}"
+fi
+
+if [ ! -z "${MPI_FC}" ]; then
+    CONFOPTS="${CONFOPTS} \
+      -D CMAKE_Fortran_COMPILER=${MPI_FC}"
+fi
 
 CONFOPTS="\
     ${CONFOPTS} \
-      -D CMAKE_C_FLAGS:STRING='-fPIC -g -O3' \
+      -D CMAKE_C_FLAGS:STRING='-march=native -fPIC -g -O3' \
+      -D CMAKE_Fortran_FLAGS:STRING='-march=native -fPIC -g -O3' \
       -D CMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON"
 
 
@@ -54,10 +65,10 @@ if [ ! -z "${BLACS_DIR}" ]; then
       -D MKL_INCLUDE_DIRS=${BLACS_DIR}"
 fi
 
-if [ ! -z "${LAPACK_DIR}" ]; then
-    cecho ${INFO} "MUMPS: configuration with LAPACK_DIR=${LAPACK_DIR}"
+if [ ! -z "${LIBFLAME_LAPACK_DIR}" ]; then
+    cecho ${INFO} "MUMPS: configuration with LAPACK_DIR=${LIBFLAME_LAPACK_DIR}"
     CONFOPTS="${CONFOPTS} \
-      -D pc_lapack_LIBRARY_DIRS=${LAPACK_DIR}/lib"
+      -D pc_lapack_LIBRARY_DIRS=${LIBFLAME_LAPACK_DIR}/lib"
 fi
 
 if [ ! -z "${SCALAPACK_DIR}" ]; then
@@ -73,7 +84,7 @@ package_specific_register () {
 }
 
 package_specific_conf () {
-    # Generate configuration file
+    B# Generate configuration file
     CONFIG_FILE=${CONFIGURATION_PATH}/${EXTRACTSTO}
     rm -f $CONFIG_FILE
     echo "

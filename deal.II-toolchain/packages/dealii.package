@@ -49,12 +49,19 @@ if [ ${USE_DEAL_II_CMAKE_MPI_COMPILER} = ON ]; then
     # https://github.com/dealii/dealii/issues/11478 and set MPI_*_COMPILER
     # cmake variables. This only works for recent CMake versions.
     CONFOPTS="${CONFOPTS} \
-    -D MPI_CXX_COMPILER=${CXX} \
-    -D MPI_C_COMPILER=${CC}"
+    -D MPI_CXX_COMPILER=${MPI_CXX} \
+    -D MPI_C_COMPILER=${MPI_CC}"
 
     unset CXX
     unset CC
 fi
+
+CONFOPTS="\
+    ${CONFOPTS} \
+      -D CMAKE_C_FLAGS:STRING="-march=native -lalm -lm -ffastmath -lamd_memcpy" \
+      -D CMAKE_CXX_FLAGS:STRING="-march=native -lalm -lm -ffastmath -lamd_memcpy" \
+      -D CMAKE_C_STANDARD_LIBRARIES="-l ${AOCL_LIBM_ROOT}/lib/libalm.so -l ${AOCL_MEMORY_ROOT}/lib/libamd_memcpy.so" \
+      -D CMAKE_CXX_STANDARD_LIBRARIES="-l ${AOCL_LIBM_ROOT}/lib/libalm.so -l ${AOCL_MEMORY_ROOT}/lib/libamd_memcpy.so" "
 
 # add the user-specified flags at the end (so things can be overriden):
 CONFOPTS="${CONFOPTS} \

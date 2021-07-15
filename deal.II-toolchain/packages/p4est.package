@@ -87,7 +87,7 @@ package_specific_setup() {
     "${UNPACK_PATH}/${EXTRACTSTO}/configure" --enable-mpi --enable-shared \
         --disable-vtk-binary --without-blas \
         --prefix="${INSTALL_FAST}" CFLAGS="${CFLAGS_FAST}" \
-        CPPFLAGS="-DSC_LOG_PRIORITY=SC_LP_ESSENTIAL" F77="${FF}" \
+        CPPFLAGS="-DSC_LOG_PRIORITY=SC_LP_ESSENTIAL" F77="${MPI_FF}" \
         "$@" >config.output || bdie "Error in configure"
     make -C sc -j${JOBS} >make.output || bdie "Error in make sc"
     make -j${JOBS} >>make.output || bdie "Error in make p4est"
@@ -101,7 +101,7 @@ package_specific_setup() {
     "${UNPACK_PATH}/${EXTRACTSTO}/configure" --enable-debug --enable-mpi --enable-shared \
         --disable-vtk-binary --without-blas \
         --prefix="${INSTALL_DEBUG}" CFLAGS="${CFLAGS_DEBUG}" \
-        CPPFLAGS="-DSC_LOG_PRIORITY=SC_LP_ESSENTIAL" F77="${FF}" \
+        CPPFLAGS="-DSC_LOG_PRIORITY=SC_LP_ESSENTIAL" F77="${MPI_FF}" \
         "$@" >config.output || bdie "Error in configure"
     make -C sc -j${JOBS} >make.output || bdie "Error in make sc"
     make -j${JOBS} >>make.output || bdie "Error in make p4est"
