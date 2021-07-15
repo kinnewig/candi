@@ -1,0 +1,46 @@
+################################################################################
+## libFLAME                                                                   ##
+################################################################################
+
+VERSION=3.0.1
+CHECKSUM=592a0db297a88d7878559d87e1eefb4c
+
+NAME=libflame-${VERSION}
+USE_VERSION=true
+SOURCE=https://github.com/amd/libflame/archive/
+PACKING=.tar.gz
+EXTRACTSTO=libflame-${VERSION}
+BUILDDIR=${BUILD_PATH}/${EXTRACTSTO}
+INSTALL_PATH=${INSTALL_PATH}/${EXTRACTSTO}
+
+BUILDCHAIN=custom
+
+package_specific_build () {
+    cd ${BUILDDIR}
+    cp -rf ${UNPACK_PATH}/${EXTRACTSTO}/* .
+
+    echo "install to: ${INSTALL_PATH}"
+
+    export FLIBS="-lflang -fPIC"
+    ./configure --prefix=${INSTALL_PATH} --enable-lapack2flame --enable-external-lapack-interfaces --enable-dynamic-build --enable-max-arg-list-hack --enable-f2c-dotc 
+    quit_if_fail "configure failed"
+
+    make -j ${JOBS} 
+    quit_if_fail "make failed"
+
+    make install 
+    quit_if_fail "make install failed"
+}
+
+package_specific_register () {
+    export LIBFLAME_LAPACK_DIR=${INSTALL_PATH}
+}
+
+package_specific_conf () {
+    # Generate configuration file
+    CONFIG_FILE=${CONFIGURATION_PATH}/${EXTRACTSTO}
+    rm -f $CONFIG_FILE
+    echo "
+export LIBFLAME_LAPACK_DIR=${INSTALL_PATH}
+" >> $CONFIG_FILE
+}

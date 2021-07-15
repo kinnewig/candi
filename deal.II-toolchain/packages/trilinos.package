@@ -85,10 +85,10 @@ if [ ! -z "${BLAS_DIR}" ]; then
       -D BLAS_LIBRARY_DIRS:STRING=${BLAS_DIR}"
 fi
 
-if [ ! -z "${LAPACK_DIR}" ]; then
-    cecho ${INFO} "trilinos: configuration with LAPACK_DIR=${LAPACK_DIR}"
+if [ ! -z "${LAPACK_LAPACK_DIR}" ]; then
+    cecho ${INFO} "trilinos: configuration with LAPACK_DIR=${LIBFLAME_LAPACK_DIR}"
     CONFOPTS="${CONFOPTS} \
-      -D LAPACK_LIBRARY_DIRS:STRING=${LAPACK_DIR}"
+      -D LAPACK_LIBRARY_DIRS:STRING=${LIBFLAME_LAPACK_DIR}"
 fi
 
 if [ ! -z "${SCALAPACK_DIR}" ]; then
