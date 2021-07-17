@@ -330,15 +330,15 @@ download_archive () {
         unset archive_state
 
         # Set up complete url
-        url=${source}${ARCHIVE_FILE}
+        url=${source}${DOWNLOAD_NAME}
         cecho ${INFO} "Trying to download ${url}"
 
         # Download.
         # If curl or wget is failing, continue this loop for trying an other mirror.
         if [ ${DOWNLOADER} = "curl" ]; then
-            curl -f -L -k ${url} -o ${DOWNLOAD_NAME} || continue
+            curl -f -L -k ${url} -o ${ARCHIVE_FILE} || continue
         elif [ ${DOWNLOADER} = "wget" ]; then
-            wget --no-check-certificate ${url} -O ${DOWNLOAD_NAME} || continue
+            wget --no-check-certificate ${url} -O ${ARCHIVE_FILE} || continue
         else
             cecho ${BAD} "candi: Unknown downloader: ${DOWNLOADER}"
             exit 1
@@ -347,7 +347,7 @@ download_archive () {
         unset url
 
         # Verify the download
-        verify_archive ${DOWNLOAD_NAME}
+        verify_archive ${ARCHIVE_FILE}
         archive_state=$?
         if [ ${archive_state} = 0 ] || [ ${archive_state} = 1 ] || [ ${archive_state} = 4 ]; then
             # If the download was successful, and the CHECKSUM is matching, skipped, or not possible
@@ -358,7 +358,7 @@ download_archive () {
     done
 
     # Unfortunately it seems that (all) download tryouts finally failed for some reason:
-    verify_archive ${DOWNLOAD_NAME}
+    verify_archive ${ARCHIVE_FILE}
     quit_if_fail "Error verifying checksum for ${DOWNLOAD_NAME}\nMake sure that you are connected to the internet."
 }
 
@@ -371,7 +371,7 @@ package_fetch () {
         if [ -z ${USE_VERSION} ]; then
           download_archive ${NAME}${PACKING} ${NAME}${PACKING}
         elif [ ${USE_VERSION} = "true" ]; then
-          download_archive ${VERSION}${PACKING} ${NAME}${PACKING}
+          download_archive ${NAME}${PACKING} ${VERSION}${PACKING}
         else
           download_archive ${NAME}${PACKING} ${NAME}${PACKING}
         fi
