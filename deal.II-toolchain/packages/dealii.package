@@ -1,11 +1,10 @@
 VERSION=${DEAL_II_VERSION}
-
 NAME=v${VERSION}
 USE_VERSION=false
 EXTRACTSTO=dealii-${VERSION}
-
 SOURCE=https://github.com/dealii/dealii/archive/
-PACKING=tar.gz
+CHECKSUM=e82c6f49a76abde5e32522e5ce28d26e
+PACKING=.tar.gz
 BUILDCHAIN=cmake
 
 ################################################################################

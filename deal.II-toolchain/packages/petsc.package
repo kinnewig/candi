@@ -38,10 +38,10 @@ if [ ${NATIVE_OPTIMIZATIONS} = ON ]; then
       FOPTFLAGS='-O3 -march=native -mtune=native'"
 fi
 
-
-for external_pkg in hypre; do
-    CONFOPTS="${CONFOPTS} --download-${external_pkg}=1"
-done
+# deactivated hypre
+#for external_pkg in hypre; do
+#    CONFOPTS="${CONFOPTS} --download-${external_pkg}=1"
+#done
 
 if [ ! -z "${MPI_CC}" ]; then
     CONFOPTS="${CONFOPTS} CC=${MPI_CC}"
@@ -69,8 +69,8 @@ if [ ! -z "${MKL_DIR}" ]; then
     CONFOPTS="${CONFOPTS} --with-blas-lapack-dir=${MKL_DIR}"
 else
     if [ ! -z "${BLAS_LIB}" ]; then
-        cecho ${INFO} "petsc: configuration with --with-blas-lapack-lib=${BLAS_LIB}"
-        CONFOPTS="${CONFOPTS} --with-blas-lapack-lib=${BLAS_LIB}"
+        cecho ${INFO} "petsc: configuration with ${BLAS_LIB}"
+    #    CONFOPTS="${CONFOPTS} --with-blas-lapack-lib=${BLAS_LIB}"
     fi
 fi
 
@@ -114,7 +114,7 @@ package_specific_setup () {
     # make sure no other invalid PETSC_DIR is set:
     unset PETSC_DIR
     
-    ${PYTHON_INTERPRETER} ./configure --prefix=${INSTALL_PATH} ${CONFOPTS}
+    ${PYTHON_INTERPRETER} ./configure -CC=${MPI_CC} -CXX=${MPI_CXX} --prefix=${INSTALL_PATH} ${CONFOPTS}
     quit_if_fail "petsc ./configure failed"
     
     make all install
