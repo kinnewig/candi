@@ -2,7 +2,7 @@
 ## MUMPS                                                                      ##
 ################################################################################
 
-VERSION=5.4.0.6
+VERSION=5.4.0.7
 EXTRACTSTO=mumps-${VERSION}
 
 NAME=v${VERSION}
@@ -10,7 +10,7 @@ USE_VERSION=false
 PACKING=.tar.gz
 
 SOURCE=https://github.com/scivision/mumps/archive/
-CHECKSUM=9b109a8b3ddf42b88d35165e8e6060af
+#CHECKSUM=9e67464213a435710a2d1de69193c72f
 
 BUILDCHAIN=cmake
 
@@ -20,10 +20,11 @@ INSTALL_PATH=${INSTALL_PATH}/mumps-${VERSION}
 # when DOWNLOADONLY is set, we already download MUMPS itself, otherwise CMAKE would download MUMPS during the installation
 if [ ${DOWNLOADONLY} = "ON" ]; then
   mkdir -p ${BUILDDIR}/_deps/mumps-subbuild/mumps-populate-prefix/src
-  wget -P ${BUILDDIR}/_deps/mumps-subbuild/mumps-populate-prefix/src https://github.com/scivision/mumps-release/raw/main/MUMPS_5.4.0.tar.gz
+  wget -P ${BUILDDIR}/_deps/mumps-subbuild/mumps-populate-prefix/src http://mumps.enseeiht.fr/MUMPS_5.4.0.tar.gz
+
+  #mkdir -p ${UNPACK_PATH}/${EXTRACTSTO}/cache/MUMPS-5.4.1-subbuild/mumps-populate-prefix/src
+  #wget -P  ${UNPACK_PATH}/${EXTRACTSTO}/cache/MUMPS-5.4.1-subbuild/mumps-populate-prefix/src http://mumps.enseeiht.fr/MUMPS_5.4.1.tar.gz
 fi
-
-
 
 # Set compilers & compiler options
 if [ ! -z "${MPI_C}" ]; then
@@ -43,8 +44,8 @@ fi
 
 CONFOPTS="\
     ${CONFOPTS} \
-      -D CMAKE_C_FLAGS:STRING='-march=native -mtune=znver3 -fPIC -g -O3' \
-      -D CMAKE_Fortran_FLAGS:STRING='-march=native -mtune=znver3 -fPIC -g -O3' \
+      -D CMAKE_C_FLAGS:STRING='-march=native -mtune=znver1 -fPIC -g -O3' \
+      -D CMAKE_Fortran_FLAGS:STRING='-march=native -mtune=znver1 -fPIC -g -O3' \
       -D CMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON"
 
 # Set metis directories
