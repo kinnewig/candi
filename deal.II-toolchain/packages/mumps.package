@@ -2,7 +2,7 @@
 ## MUMPS                                                                      ##
 ################################################################################
 
-VERSION=5.4.0.5
+VERSION=5.4.0.6
 EXTRACTSTO=mumps-${VERSION}
 
 NAME=v${VERSION}
@@ -10,27 +10,42 @@ USE_VERSION=false
 PACKING=.tar.gz
 
 SOURCE=https://github.com/scivision/mumps/archive/
-CHECKSUM=0cd3bd9ad9860f7c0092cd561931a36e
+CHECKSUM=9b109a8b3ddf42b88d35165e8e6060af
 
 BUILDCHAIN=cmake
 
 BUILDDIR=${BUILD_PATH}/mumps-${VERSION}
 INSTALL_PATH=${INSTALL_PATH}/mumps-${VERSION}
 
+# when DOWNLOADONLY is set, we already download MUMPS itself, otherwise CMAKE would download MUMPS during the installation
+if [ ${DOWNLOADONLY} = "ON" ]; then
+  mkdir -p ${BUILDDIR}/_deps/mumps-subbuild/mumps-populate-prefix/src
+  wget -P ${BUILDDIR}/_deps/mumps-subbuild/mumps-populate-prefix/src https://github.com/scivision/mumps-release/raw/main/MUMPS_5.4.0.tar.gz
+fi
+
 
 
 # Set compilers & compiler options
-CONFOPTS="${CONFOPTS} \
-  -D CMAKE_C_COMPILER=mpicc \
-  -D CMAKE_CXX_COMPILER=mpicxx \
-  -D CMAKE_Fortran_COMPILER=mpifort"
+if [ ! -z "${MPI_C}" ]; then
+    CONFOPTS="${CONFOPTS} \
+      -D CMAKE_C_COMPILER=${MPI_C}"
+fi
+
+if [ ! -z "${MPI_CXX}" ]; then
+    CONFOPTS="${CONFOPTS} \
+      -D CMAKE_CXX_COMPILER=${MPI_CXX}"
+fi
+
+if [ ! -z "${MPI_FC}" ]; then
+    CONFOPTS="${CONFOPTS} \
+      -D CMAKE_Fortran_COMPILER=${MPI_FC}"
+fi
 
 CONFOPTS="\
     ${CONFOPTS} \
-      -D CMAKE_C_FLAGS:STRING='-march=native -fPIC -g -O3' \
-      -D CMAKE_Fortran_FLAGS:STRING='-march=native -fPIC -g -O3' \
+      -D CMAKE_C_FLAGS:STRING='-march=native -mtune=znver3 -fPIC -g -O3' \
+      -D CMAKE_Fortran_FLAGS:STRING='-march=native -mtune=znver3 -fPIC -g -O3' \
       -D CMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON"
-
 
 # Set metis directories
 if [ ! -z "${METIS_DIR}" ]; then
@@ -64,12 +79,10 @@ fi
 if [ ! -z "${SCALAPACK_DIR}" ]; then
     CONFOPTS="${CONFOPTS} \
       -D pc_scalapack_LIBRARY_DIRS=${SCALAPACK_DIR}/lib"
+else
+    # auto build missing packages
+    CONFOPTS="${CONFOPTS} -D autobuild=true"
 fi
-
-
-# auto build Scalapack if missing, we need to compile ScaLAPACK on our own.
-#CONFOPTS="${CONFOPTS} \
-#  -D autobuild=true"
 
 package_specific_register () {
     export MUMPS_DIR=${INSTALL_PATH}
@@ -80,6 +93,6 @@ package_specific_conf () {
     CONFIG_FILE=${CONFIGURATION_PATH}/${EXTRACTSTO}
     rm -f $CONFIG_FILE
     echo "
-export MUMPS=${INSTALL_PATH}
+export MUMPS_DIR=${INSTALL_PATH}
 " >> $CONFIG_FILE
 }
