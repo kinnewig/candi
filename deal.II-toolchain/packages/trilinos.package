@@ -139,20 +139,10 @@ else
 fi
 
 # Set compilers & compiler options
-if [ ! -z "${CC}" ]; then
-    CONFOPTS="${CONFOPTS} \
-      -D CMAKE_C_COMPILER=${CC}"
-fi
-
-if [ ! -z "${CXX}" ]; then
-    CONFOPTS="${CONFOPTS} \
-      -D CMAKE_CXX_COMPILER=${CXX}"
-fi
-
-if [ ! -z "${FC}" ]; then
-    CONFOPTS="${CONFOPTS} \
-      -D CMAKE_Fortran_COMPILER=${FC}"
-fi
+CONFOPTS="${CONFOPTS} \
+  -D CMAKE_C_COMPILER=${MPI_CC} \
+  -D CMAKE_CXX_COMPILER=${MPI_CXX} \
+  -D CMAKE_Fortran_COMPILER=${MPI_FC}"
 
 CONFOPTS="${CONFOPTS} \
   -D CMAKE_CXX_FLAGS:STRING="-march=native -lalm -lm -ffastmath -lamd_memcpy -fPIC -g -O3" \
