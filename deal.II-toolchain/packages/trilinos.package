@@ -136,12 +136,16 @@ fi
 
 # deal.II
 CONFOPTS="\
+  -D Trilinos_ENABLE_Amesos:BOOL=ON \
+  -D Trilinos_ENABLE_Amesos2:BOOL=ON \
+  -D Trilinos_ENABLE_AztecOO:BOOL=ON \
   -D Trilinos_ENABLE_Epetra:BOOL=ON \
   -D Trilinos_ENABLE_EpetraExt:BOOL=ON \
-  -D Trilinos_ENABLE_Tpetra:BOOL=ON \
   -D Trilinos_ENABLE_Ifpack:BOOL=ON \
   -D Trilinos_ENABLE_ML:BOOL=ON \
-  -D Trilinos_ENABLE_AztecOO:BOOL=ON \
+  -D Trilinos_ENABLE_ROL:BOOL=ON \
+  -D Trilinos_ENABLE_Sacado:BOOL=ON \
+  -D Trilinos_ENABLE_Tpetra:BOOL=ON \
   ${CONFOPTS}"
 
 # FroSch
