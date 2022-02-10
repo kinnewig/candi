@@ -2,7 +2,7 @@
 ## MUMPS                                                                      ##
 ################################################################################
 
-VERSION=5.4.0.5
+VERSION=5.4.0.7
 EXTRACTSTO=mumps-${VERSION}
 
 NAME=v${VERSION}
@@ -10,67 +10,80 @@ USE_VERSION=false
 PACKING=.tar.gz
 
 SOURCE=https://github.com/scivision/mumps/archive/
-CHECKSUM=0cd3bd9ad9860f7c0092cd561931a36e
+#CHECKSUM=9e67464213a435710a2d1de69193c72f
 
 BUILDCHAIN=cmake
 
 BUILDDIR=${BUILD_PATH}/mumps-${VERSION}
 INSTALL_PATH=${INSTALL_PATH}/mumps-${VERSION}
 
+# when DOWNLOADONLY is set, we already download MUMPS itself, otherwise CMAKE would download MUMPS during the installation
+if [ ${DOWNLOADONLY} = "ON" ]; then
+  mkdir -p ${BUILDDIR}/_deps/mumps-subbuild/mumps-populate-prefix/src
+  wget -P ${BUILDDIR}/_deps/mumps-subbuild/mumps-populate-prefix/src http://mumps.enseeiht.fr/MUMPS_5.4.0.tar.gz
+
+  #mkdir -p ${UNPACK_PATH}/${EXTRACTSTO}/cache/MUMPS-5.4.1-subbuild/mumps-populate-prefix/src
+  #wget -P  ${UNPACK_PATH}/${EXTRACTSTO}/cache/MUMPS-5.4.1-subbuild/mumps-populate-prefix/src http://mumps.enseeiht.fr/MUMPS_5.4.1.tar.gz
+fi
+
 # Set compilers & compiler options
-if [ ! -z "${CC}" ]; then
+if [ ! -z "${MPI_C}" ]; then
     CONFOPTS="${CONFOPTS} \
-      -D CMAKE_C_COMPILER=${CC}"
+      -D CMAKE_C_COMPILER=${MPI_C}"
 fi
 
-if [ ! -z "${CXX}" ]; then
+if [ ! -z "${MPI_CXX}" ]; then
     CONFOPTS="${CONFOPTS} \
-      -D CMAKE_CXX_COMPILER=${CXX}"
+      -D CMAKE_CXX_COMPILER=${MPI_CXX}"
 fi
 
-if [ ! -z "${FC}" ]; then
+if [ ! -z "${MPI_FC}" ]; then
     CONFOPTS="${CONFOPTS} \
-      -D CMAKE_Fortran_COMPILER=${FC}"
+      -D CMAKE_Fortran_COMPILER=${MPI_FC}"
 fi
 
-CONFOPTS="${CONFOPTS} \
+CONFOPTS="\
+    ${CONFOPTS} \
       -D CMAKE_C_FLAGS:STRING='-fPIC -g -O3' \
+      -D CMAKE_Fortran_FLAGS:STRING='-fPIC -g -O3' \
       -D CMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON"
-
-if [ ${MKL} = ON ]; then
-    # When MKL is provided, MUMPS will search for the required packages by itself.
-    # Therefore we only need to set MKLROOT.
-    CONFOPTS="${CONFOPTS} \
-      -D MKLROOT=${MKL_DIR}"
-else
-  if [ ! -z "${BLAS_DIR}" ]; then
-      CONFOPTS="${CONFOPTS} \
-        -D pc_blas_LIBRARY_DIRS=${BLAS_DIR}/lib "
-  fi
-
-  if [ ! -z "${LAPACK_DIR}" ]; then
-      CONFOPTS="${CONFOPTS} \
-        -D pc_lapack_LIBRARY_DIRS=${LAPACK_DIR}/lib"
-  fi
-
-  if [ ! -z "${SCALAPACK_DIR}" ]; then
-      CONFOPTS="${CONFOPTS} \
-        -D pc_scalapack_LIBRARY_DIRS=${SCALAPACK_DIR}/lib"
-  else
-      # auto build missing packages
-      CONFOPTS="${CONFOPTS} -D autobuild=true"
-  fi
-fi
 
 # Set metis directories
 if [ ! -z "${METIS_DIR}" ]; then
-    CONFOPTS="${CONFOPTS} \
+    cecho ${INFO} "MUMPS: configuration with METIS"
+    CONFOPTS="\
+        ${CONFOPTS} \
         -D metis=true \
         -D METIS_LIBRARY=${METIS_DIR}/lib/libmetis.so \
         -D METIS_INCLUDE_DIR=${METIS_DIR}/include \
         -D PARMETIS_LIBRARY=${PARMETIS_DIR}/lib/libparmetis.so "
 fi
 
+if [ ! -z "${BLAS_DIR}" ]; then
+    cecho ${INFO} "MUMPS: configuration with BLAS_DIR=${BLAS_DIR}"
+    CONFOPTS="${CONFOPTS} \
+      -D pc_blas_LIBRARY_DIRS=${BLAS_DIR}/lib "
+fi
+
+if [ ! -z "${BLACS_DIR}" ]; then
+    cecho ${INFO} "MUMPS: configuration with BLACS_DIR=${BLACS_DIR}"
+    CONFOPTS="${CONFOPTS} \
+      -D MKL_INCLUDE_DIRS=${BLACS_DIR}"
+fi
+
+if [ ! -z "${LIBFLAME_LAPACK_DIR}" ]; then
+    cecho ${INFO} "MUMPS: configuration with LAPACK_DIR=${LIBFLAME_LAPACK_DIR}"
+    CONFOPTS="${CONFOPTS} \
+      -D pc_lapack_LIBRARY_DIRS=${LIBFLAME_LAPACK_DIR}/lib"
+fi
+
+if [ ! -z "${SCALAPACK_DIR}" ]; then
+    CONFOPTS="${CONFOPTS} \
+      -D pc_scalapack_LIBRARY_DIRS=${SCALAPACK_DIR}/lib"
+else
+    # auto build missing packages
+    CONFOPTS="${CONFOPTS} -D autobuild=true"
+fi
 
 package_specific_register () {
     export MUMPS_DIR=${INSTALL_PATH}
