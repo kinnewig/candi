@@ -2,15 +2,15 @@
 ## ScaLAPACK                                                                  ##
 ################################################################################
 
-VERSION=2.1.0
+VERSION=2.2.0
 EXTRACTSTO=scalapack-${VERSION}
 
-NAME=scalapack-${VERSION}
-USE_VERSION=true
+NAME=v${VERSION}
+USE_VERSION=false
 PACKING=.tar.gz
 
 SOURCE=https://github.com/Reference-ScaLAPACK/scalapack/archive/
-CHECKSUM=e9ae970238030fa1e8ee022a9d3e6fbb
+CHECKSUM=9ff561fb6c47d8649597d3b70b5ef0cb
 
 BUILDCHAIN=cmake
 
